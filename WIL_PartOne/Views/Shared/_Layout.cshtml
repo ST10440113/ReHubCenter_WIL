@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WIL_PartOne</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WIL_PartOne.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <input type="checkbox" id="nav-toggle">
+    <label class="toggle" for="nav-toggle">
+        <span class="top_line common"></span>
+        <span class="middle_line common"></span>
+        <span class="bottom_line common"></span>
+    </label>
+
+    <div class="slide">
+
+        <h1>MENU</h1>
+
+        <ul>
+         
+
+            <li>
+                <a asp-controller="AboutMe" asp-action="Index">
+                    About Me
+                </a>
+            </li>
+            <li>
+                <a asp-controller="AboutCompany" asp-action="Index">
+                    About Company
+                </a>
+            </li>
+            <li>
+                <a asp-controller="PopularWorkshopTopics" asp-action="Index">
+                    Popular Workshop Topics
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+    @{
+        var isHome = ViewContext.RouteData.Values["controller"]?.ToString() == "Home"
+                     && ViewContext.RouteData.Values["action"]?.ToString() == "Index";
+
+        var isWorkshopTopics = ViewContext.RouteData.Values["controller"]?.ToString() == "PopularWorkshopTopics";
+
+        var isFAQ = ViewContext.RouteData.Values["controller"]?.ToString() == "FAQ";
+
+        var isAboutMe = ViewContext.RouteData.Values["controller"]?.ToString() == "AboutMe";
+
+        
+        var isAboutCompany = ViewContext.RouteData.Values["controller"]?.ToString() == "AboutCompany";
+    }
+
+    <nav class="navbar">
+        <ul>
+            <li>
+                <a asp-controller="FAQ" asp-action="Index">
+                    FAQ
+                </a>
+            </li>
+            <li>
+                <a asp-controller="ClientDetails" asp-action="Index">
+                    ClientDetails
+                </a>
+            </li>
+            @if (!isHome)
+            {
+                <li>
+                    <a asp-controller="Home" asp-action="Index">
+                        Back to Home
+                    </a>
+                </li>
+            }
+        </ul>
+
+        @if (isWorkshopTopics)
+        {
+            <h1 class="navbar-title">Popular Workshop Topics</h1>
+        }
+        @if (isFAQ)
+        {
+            <h1 class="navbar-title">Frequently Asked Questions</h1>
+        }
+        @if (isAboutMe)
+        {
+            <h1 class="navbar-title">About Me</h1>
+        }
+        @if (isAboutCompany)
+        {
+            <h1 class="navbar-title">About Company</h1>
+        }
+
+        @if (isHome)
+        {
+            <div class="navbar-actions">
+                <div class="dropdown">
+                    <button class="btn-bookings dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Bookings
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" asp-controller="Bookings" asp-action="Session">Individual Session</a></li>
+                        <li><a class="dropdown-item" asp-controller="Bookings" asp-action="Index">Workshop</a></li>
+                    </ul>
+                </div>
+            </div>
+        }
+    </nav>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - WIL_PartOne - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
